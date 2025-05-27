@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from safe_content_ai.utils import detect_nsfw_from_image
+from utils import detect_nsfw_from_image
 
 
 def show_warning_popup():
@@ -115,16 +115,24 @@ def youtube_explicit_content_detector():
 
             if result["is_nsfw"] and confidence >= EXPLICIT_THRESHOLD:
                 print(f"⚠️ 외설 콘텐츠 감지됨! ({confidence:.2f}%)")
+                #우선 영상을 10초 전으로 되돌림
+                driver.execute_script("""
+                    const video = document.querySelector('video');
+                    if (video) video.currentTime = Math.max(0,video.currentTime-10);
+                """)
 
+                time.sleep(1)
+                #그리고 영상을 멈춤
                 pause_button = driver.find_element(By.CSS_SELECTOR, ".ytp-play-button")
                 pause_button.click()
 
+                #그리고 영상의 전체화면을 해제
                 driver.execute_script("if (document.fullscreenElement) document.exitFullscreen();")
                 time.sleep(2)
 
-                show_warning_popup()
                 explicit_detected = True
-                print("영상이 정지되고 전체화면이 해제되었습니다.")
+
+                print("영상이 정지되고 전체화면이 해제되었습니다.")#오류확인용출력
 
             os.remove(frame_path)
             frame_count += 1

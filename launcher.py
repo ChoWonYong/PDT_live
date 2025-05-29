@@ -6,6 +6,15 @@ import cv2
 from utils import detect_nsfw_from_image
 
 
+def format_timestamp(seconds):
+    if seconds >= 60:
+        minutes = int(seconds // 60)
+        remaining_seconds = int(seconds % 60)
+        return f"{minutes}분 {remaining_seconds}초"
+    else:
+        return f"{int(seconds)}초"
+
+
 def run_url_mode():
     subprocess.run(["python", "main.py"])  # main.py는 YouTube URL 분석
 
@@ -43,7 +52,8 @@ def run_file_mode():
             if result["is_nsfw"] and result["confidence_percentage"] > 70.0:
                 timestamp = round(frame_idx / fps, 1)
                 explicit_times.append(timestamp)
-                report_lines.append(f"{timestamp}초: NSFW (신뢰도 {result['confidence_percentage']}%)")
+                formatted_time = format_timestamp(timestamp)
+                report_lines.append(f"{formatted_time}: NSFW (신뢰도 {result['confidence_percentage']}%)")
 
             os.remove(temp_path)
             frame_number += 1
@@ -52,14 +62,14 @@ def run_file_mode():
 
     cap.release()
 
-    report = "🔍 영상 외설 분석 보고서\n"
+    report = "영상 외설 분석 보고서\n"
     report += f"파일명: {os.path.basename(filepath)}\n"
     report += f"총 프레임 수: {total_frames}, 분석 프레임 수: {frame_number}\n\n"
     if explicit_times:
-        report += "⚠️ 외설 콘텐츠 발견됨!\n"
+        report += "외설 콘텐츠 발견됨!\n"
         report += "\n".join(report_lines)
     else:
-        report += "✅ 외설 콘텐츠가 감지되지 않았습니다."
+        report += "외설 콘텐츠가 감지되지 않았습니다."
 
     with open("nsfw_report.txt", "w", encoding="utf-8") as f:
         f.write(report)
@@ -77,7 +87,6 @@ def launch_gui():
 
     tk.Button(root, text="1. URL 입력 모드 (YouTube)", font=("Arial", 14), width=30, command=run_url_mode).pack(pady=10)
     tk.Button(root, text="2. 영상 파일 분석 모드", font=("Arial", 14), width=30, command=run_file_mode).pack(pady=10)
-    tk.Button(root, text="3. (미정)", font=("Arial", 14), width=30, state=tk.DISABLED).pack(pady=10)
 
     root.mainloop()
 

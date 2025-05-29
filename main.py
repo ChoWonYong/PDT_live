@@ -17,7 +17,7 @@ from utils import detect_nsfw_from_image
 
 def show_warning_popup():
     win = tk.Tk()
-    win.title("⚠️ 외설 감지")
+    win.title("외설 감지")
     win.attributes("-topmost", True)
     win.configure(bg="black")
 
@@ -37,7 +37,7 @@ def show_warning_popup():
     label_img.image = tk_img
     label_img.pack()
 
-    label_text = tk.Label(win, text="⚠️ 외설 콘텐츠가 식별되었습니다!", fg="red", bg="black", font=("Arial", 20, "bold"))
+    label_text = tk.Label(win, text="외설 콘텐츠가 식별되었습니다!", fg="red", bg="black", font=("Arial", 20, "bold"))
     label_text.pack(pady=10)
 
     btn = tk.Button(win, text="확인", font=("Arial", 16), command=win.destroy)
@@ -114,7 +114,7 @@ def youtube_explicit_content_detector():
             print(f"프레임 {frame_count}: 신뢰도 = {confidence:.2f}% / NSFW = {result['is_nsfw']}")
 
             if result["is_nsfw"] and confidence >= EXPLICIT_THRESHOLD:
-                print(f"⚠️ 외설 콘텐츠 감지됨! ({confidence:.2f}%)")
+                print(f"외설 콘텐츠 감지됨! ({confidence:.2f}%)")
                 #우선 영상을 10초 전으로 되돌림
                 driver.execute_script("""
                     const video = document.querySelector('video');

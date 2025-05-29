@@ -1,0 +1,5 @@
+실행시 몇 줄의 Warning 이후 , 모드 선택창 출력(tkinter)
+![스크린샷 2025-05-29 132708](https://github.com/user-attachments/assets/7ba51fa2-9f71-4945-89e3-5b84525d8a38)
+![스크린샷 2025-05-29 132723](https://github.com/user-attachments/assets/195509fa-5ee8-4605-8759-f426af4092e6)
+![스크린샷 2025-05-29 132738](https://github.com/user-attachments/assets/e21e1a2f-3a78-4a90-8f15-32c1faf5cfc3)
+![스크린샷 2025-05-29 133158](https://github.com/user-attachments/assets/c716aa37-3c6c-4bde-a45f-700c26bdada2)
